@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+    	<meta charset=utf-8 />
+    	<title>Neuron-Sim</title>
+    	<link rel="stylesheet" type="text/css" media="screen" href="css/master.css" />
+		<script src="js/master.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+				<link href="css/c3.css" rel="stylesheet" type="text/css">
+		
+<style type="text/css">
+#wrap {
+   width:100%;
+   margin:0 auto;
+   overflow:hidden;
+   background-color: #2e2e2e;
+}
+
+#wrap_graphs {
+   width:100%;
+   overflow:hidden;
+   background-color: #ffffff;
+   height:350px;
+}
+
+#left_col {
+   float:left;
+   width:30%;
+}
+
+#right_col {
+   float:right;
+   width:70%;
+}
+
+#graphs {
+	padding:50px 00px 0px 00px;
+	background-color: #ffffff;
+}
+
+input[type="text"] {
+    width: 50px
+}
+
+#button_cont {
+padding:10px 0px 0px 0px;;
+text-align: center;
+}
+
+td {
+   	text-align: centre;
+} 
+
+img {
+    display: block;
+    margin: 0 auto;
+}
+
+</style>
+	    </head>
+    <body>
+	
+<nav>	
+    <ul>
+        <li><a href="#">Neuron-Sim beta</a>
+
+        </li>
+    </ul>
+</nav>
+<div id="graphs">
+    <div id="wrap_graphs">
+		<div id="left_col">
+		   <div id="chart_current"></div>
+		</div>
+		<div id="right_col">
+			<div id="chart"></div>
+		</div>
+</div>
+		
+ 
+</div>
+
+
+
+	<div id="wrap">
+		<div id="left_col">
+			<div id="tabContainer2">
+		<div id="tabscontent2">
+		<H2> Input Stimulation</H2>
+				<table style="width:100%" id="CurrentTable">   
+					<tr>
+						<td><H3>Start Time</H3></td>
+						<td><H3> Current Mean</H3></td>
+						<td><H3> Current Std</H3></td>
+						
+					</tr>				
+					<tr>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_time" value="0"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_mean" value="400"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_std" value="0">          </td>
+						
+					</tr>  
+					<tr>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_time" value="300"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_mean" value="600"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_std" value="0">          </td>
+					</tr>
+					<tr>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_time" value="600"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_mean" value="400"></td>
+						<td><input type="text" placeholder=":focus" class="focus" name="current_std" value="200"></td>
+						
+						
+					</tr>  					
+				</table>  
+				<div id="button_cont">
+				<button onclick="newCurrent()">Add Current</button>       
+				<button onclick="delCurrent()">Remove Current</button>  
+				</div>		
+		</div>   
+	
+	</div>
+		</div>
+		<div id="right_col">
+			  
+
+			<div id="tabContainer">
+				<div id="tabs">
+					<ul>
+						<li id="tabHeader_1">Leaky Intergrate and Fire</li>
+						<li id="tabHeader_2">Izhikevitch</li>
+						 <li id="tabHeader_3">Adex</li> 
+					</ul>
+				</div>
+				<div id="tabscontent">
+					<div class="tabpage" id="tabpage_1">
+						 <h2>Leaky Intergrate and Fire Model Neuron</h2>
+						<table style="width:100%">
+						<tr>
+						<td><H2> Parameter Values </H2></td><td><H2> Equation </H2></td>
+						</tr>
+						<tr><td>
+						
+							<table style="width:100%">
+							
+								<tr>
+									<td>&#964;</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Lif_Tau" value="0.002"> 
+									</td>
+									<td>R</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Lif_R" value="0.09">
+									</td>
+								</tr>
+								<tr>
+									<td>E</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Lif_E" value="-70">
+									</td>
+									<td>&#952;</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Lif_Theta" value="-30">
+									</td>
+								</tr>
+							</table>
+						</td><td>
+						
+							<img src="Images/LIF.png" alt="Leaky Integrate and Fire Model">
+						</td></tr></table>	
+						 <button onclick="run_sim(0)">Simulate</button>
+
+						
+					</div>
+					<div class="tabpage" id="tabpage_2">
+						 <h2>Izhekevitch Model Neuron</h2>
+			
+						<!--<p>You can select a predefined model here:
+							<select id="iz_model" onchange="iz_model_load()">
+								<option value="1">Regular Spiking</option>
+								<option value="2">Intrinsically Bursting</option>
+								<option value="3">Chattering</option>
+								<option value="4">Fast Spiking</option>
+								<option value="5">Thalamo-Cortical</option>
+								<option value="6">Resonator</option>
+							</select>
+						</p> -->
+						<table style="width:100%">
+						<tr>
+						<td><H2> Parameter Values </H2></td><td><H2> Equation </H2></td>
+						</tr>
+						<tr><td>
+						<table style="width:100%">
+							<tr>
+								<td>C</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_C" value="15">
+								</td>
+								<td>k</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_k" value="1">
+								</td>
+							</tr>
+							<tr>
+								<td>v<sub>rest<sub></td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_vr" value="-80">
+								</td>
+								<td>a</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_a" value="0.01">
+								</td>
+							</tr>
+							<tr>
+								<td>v<sub>peak</sub></td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_vpeak" value="40">
+								</td>
+								<td>b</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_b" value="-20">
+								</td>
+							</tr>
+							<tr>
+								<td>v<sub>thresh<sub></td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_vt" value="-30">
+								</td>
+								<td>c</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_c" value="-55">
+								</td>
+							</tr>
+							<tr>
+								<td>&#964;</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_tau" value="0.25">
+								</td>
+								<td>d</td>
+								<td>
+									<input type="text" placeholder=":focus" class="focus" id="Iz_d" value="91">
+								</td>
+							</tr>
+							 
+						</table>
+					</td><td>
+							<img src="Images/Iz.png" alt="Izhkevitch Model Neuron">
+						</td></tr></table>	
+						
+						 <button onclick="run_sim(0)">Simulate</button>
+					 
+							   
+					</div>
+					  <div class="tabpage" id="tabpage_3">
+						   <h2>Adaptive Exponential Integrate and Fire Model Neuron</h2>
+
+						<p>You can select a predefined model here:
+							<select id="adex_model" onchange="adex_model_load()">
+								<option value="1">Regular Spiking</option>
+								<option value="2">Intrinsically Bursting</option>
+								<option value="3">Chattering</option>
+								<option value="4">Fast Spiking</option>
+								<option value="5">Thalamo-Cortical</option>
+								<option value="6">Resonator</option>
+							</select>
+						</p>
+						
+						<table style="width:100%">
+						<tr>
+						<td><H2> Parameter Values </H2></td><td><H2> Equation </H2></td>
+						</tr>
+						<tr><td>
+						<table style="width:100%">
+								<tr>
+									<td>C</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_C" value="281">
+									</td>
+									<td>g<sub>L</sub></td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_gl" value="30">
+									</td>
+								</tr>
+								<tr>
+									<td>e<sub>L</sub></td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_el" value="-70.6">
+									</td>
+									<td>v<sub>t</sub></td>
+									<td>	 	
+										<input type="text" placeholder=":focus" class="focus" id="Adex_vt" value="50.4">
+									</td>
+								</tr>
+								<tr>
+									<td>Δ<sub>T</sub></td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_del" value="2">
+									</td>
+									<td>τ<sub>w</sub></td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_tw" value="144">
+									</td>
+								</tr>
+								<tr>
+									<td>a</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_a" value="4">
+									</td>
+									<td>b</td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_b" value="0.0805">
+									</td>
+								</tr>
+								<tr>
+									<td>v<sub>r</sub></td>
+									<td>
+										<input type="text" placeholder=":focus" class="focus" id="Adex_vr" value="-54">
+									</td>
+								</tr>
+								
+										 </table>
+							</td>
+							<td>
+						<img src="Images/Adex.png" alt="Adaptive Exponential Integrate and Fire Model Neuron">
+						</td></tr>
+						</table>
+						 <button onclick="run_sim()">Simulate</button>
+						
+						 
+							   
+					</div>      
+					
+				</div>    
+								  
+			</div>
+		</div>
+	</div>
+</div>
+<div id="footer">
+ <p> Adam Tomkins 2015 </p>
+ </div>
+    </body>
+		
+	
+<!-- Load c3.css -->
+
+
+		<!-- Load d3.js and c3.js -->
+		<script src="js/d3.v3.js" charset="utf-8"></script>
+		<script src="js/c3.min.js"></script>
+<script> run_sim(0) </script>
+    </html>
